@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/todos", (req, res) => {
-    res.send(todosArr);
+    res.json(todosArr);
 })
 
 app.get("/todos/:id", (req, res) => {
@@ -37,11 +37,21 @@ app.get("/todos/:id", (req, res) => {
 
     const todo = todosArr.find((t) => t.id === todoId);
 
-    res.send(todo);
+    res.json(todo);
 });
 
 app.post('/todos', (req, res) => {
     const todo = req.body;
+
+    if(!todo.task){
+        return res.status(400).json({message: "Task is required!"});
+    }
+    if(!todo.tags){
+        return res.status(400).json({message: "Tags are required!"});
+    }
+    if(!todo.status){
+        return res.status(400).json({message: "status is required!"});
+    }
 
     const newTodo = {
         id: todosArr[todosArr.length - 1].id + 1,
@@ -50,8 +60,44 @@ app.post('/todos', (req, res) => {
         status: todo.status
     }
     todosArr.push(newTodo);
-    res.send(newTodo);
+    res.status(201).json(newTodo);
 });
+
+app.put('/todos/:id' , (req,res) => {
+    const id = parseInt(req.params.id);
+    const {task,tags,status} = req.body
+
+    const todoIndex = todosArr.findIndex((t) => t.id === id);
+
+    if(todoIndex === -1){
+        return res.status(404).json({message: "Todo not found!"});
+    }
+
+    if(task){
+        todosArr[todoIndex].task = task;
+    }
+    if(tags){
+        todosArr[todoIndex].tags= tags;
+    }
+    if(status){
+        todosArr[todoIndex].status = status;
+    }
+    res.json(todosArr[todoIndex]);
+
+});
+
+app.delete('/todos/:id', (req,res) => {
+    const id = parseInt(req.params.id);
+    const todoIndex = todosArr.findIndex((t) => t.id === id);
+
+    if(todoIndex === -1){
+        return res.status(404).json({message: "Todo not found!"});
+    }
+
+    todosArr.splice(todoIndex,1);
+    res.json({message: "Todo deleted successfully!"});
+
+})
 
 
 
