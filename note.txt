@@ -1,0 +1,11 @@
+
+introduction to nodejs
+
+1. Pre-requisites
+2. What is NodeJs
+3. NodeJs features
+4. JavaScript on client
+5. JavaScript on Server
+6. Client Code vs Server code
+7. Other uses of NodeJs
+8. Server architecture with NodeJs
