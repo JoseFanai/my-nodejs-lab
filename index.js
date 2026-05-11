@@ -11,4 +11,3 @@
 // // console.log(mathOperations.subtractNum(20, 10));
 // // console.log(mathOperations.name);
 // // console.log(mathOperations.luckyNumber);
-
